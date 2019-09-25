@@ -2,7 +2,7 @@
 <html lang="en">
     {% load staticfiles %}
     {% load thumbnail %}
-    
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,7 +66,7 @@
 			{{ user.get_full_name|truncatechars:20 }}
 			<span class="caret"></span>
 		    </a>
-		    
+
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
@@ -93,7 +93,7 @@
 
     {% block splash %}
     {% endblock splash %}
-    
+
     {% block container %}
     <div class="container">
 
@@ -112,13 +112,13 @@
       <div class="container">
             <div class="footer">
         <div class="row">
-          <div class="col-lg-6">
-              <p>&copy; Company {% now 'Y' %}</p>
-          </div>
-          <div class="col-lg-6 text-right">
-            Connect with us on
-            <a href="#"><i class="fa fa-facebook"></i> Facebook</a> or
-            <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+          <div class="col-lg-12">
+              <div class="row">
+                  <div class="col-xs-4 col-sm-2 col-lg-2"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+                </a></div>
+                  <div class="col-xs-8 col-sm-10 col-lg-10"><p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p></div>
+              </div>
           </div>
         </div>
             </div>

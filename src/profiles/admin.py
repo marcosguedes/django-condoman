@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 from authtools.admin import NamedUserAdmin
-from .models import Profile
+from .models import ProprietorProfile
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.html import format_html
@@ -9,12 +9,12 @@ from django.utils.html import format_html
 User = get_user_model()
 
 
-class UserProfileInline(admin.StackedInline):
-    model = Profile
+class UserProprietorProfileInline(admin.StackedInline):
+    model = ProprietorProfile
 
 
 class NewUserAdmin(NamedUserAdmin):
-    inlines = [UserProfileInline]
+    inlines = [UserProprietorProfileInline]
     list_display = (
         "is_active",
         "email",
@@ -28,7 +28,7 @@ class NewUserAdmin(NamedUserAdmin):
     # have get_absolute_url defined. So showing on the list display
     # was a workaround.
     def permalink(self, obj):
-        url = reverse("profiles:show", kwargs={"slug": obj.profile.slug})
+        url = reverse("profiles:show", kwargs={"slug": obj.proprietorprofile.slug})
         # Unicode hex b6 is the Pilcrow sign
         return format_html('<a href="{}">{}</a>'.format(url, "\xb6"))
 

@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     "authtools",
     "crispy_forms",
     "easy_thumbnails",
+    "post_office",
     "profiles",
     "accounts",
 )
@@ -119,6 +120,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 ALLOWED_HOSTS = []
+
+EMAIL_BACKEND = 'post_office.EmailBackend'
 
 # Crispy Form Theme - Bootstrap 3
 CRISPY_TEMPLATE_PACK = "bootstrap3"
