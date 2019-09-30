@@ -7,14 +7,21 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-from django.urls import reverse_lazy
+import os
 from pathlib import Path
+
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / "directory"
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 STATICFILES_DIRS = [str(BASE_DIR / "static")]
 MEDIA_ROOT = str(BASE_DIR / "media")
 MEDIA_URL = "/media/"
+
 
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
@@ -36,13 +43,13 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.i18n",
             ]
         },
     }
 ]
 
 # Use 12factor inspired environment variables or from a file
-import environ
 
 env = environ.Env()
 
@@ -76,11 +83,15 @@ INSTALLED_APPS = (
     "post_office",
     "profiles",
     "accounts",
+    "solo",
+    "condopay",
+    "condofigurations",
 )
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -104,9 +115,12 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "pt"
 
-TIME_ZONE = "UTC"
+LANGUAGES = (("pt", _("Portuguese")), ("en", _("English")))
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale/"),)
+
+TIME_ZONE = "Europe/Lisbon"
 
 USE_I18N = True
 
@@ -121,13 +135,13 @@ STATIC_URL = "/static/"
 
 ALLOWED_HOSTS = []
 
-EMAIL_BACKEND = 'post_office.EmailBackend'
+EMAIL_BACKEND = "post_office.EmailBackend"
 
 # Crispy Form Theme - Bootstrap 3
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
+
 # For Bootstrap 3, change error alert to 'danger'
-from django.contrib import messages
 
 MESSAGE_TAGS = {messages.ERROR: "danger"}
 
