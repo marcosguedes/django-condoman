@@ -1,8 +1,11 @@
 from __future__ import unicode_literals
-from django.views import generic
-from django.shortcuts import get_object_or_404, redirect
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.views import generic
+
+
 from . import forms
 from . import models
 
@@ -34,22 +37,25 @@ class EditProfile(LoginRequiredMixin, generic.TemplateView):
         if "user_form" not in kwargs:
             kwargs["user_form"] = forms.UserForm(instance=user)
         if "profile_form" not in kwargs:
-            kwargs["profile_form"] = forms.ProprietorProfileForm(instance=user.proprietorprofile)
+            kwargs["profile_form"] = forms.ProprietorProfileForm(
+                instance=user.proprietorprofile
+            )
+
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
         user_form = forms.UserForm(request.POST, instance=user)
         profile_form = forms.ProprietorProfileForm(
-            request.POST, request.FILES, instance=user.proprietorprofile
+            request.POST, instance=user.proprietorprofile  # request.FILES,
         )
-        if not user_form.is_valid() and profile_form.is_valid():
+        if any([not user_form.is_valid(), not profile_form.is_valid()]):
             messages.error(
                 request,
                 "There was a problem with the form. " "Please check the details.",
             )
             user_form = forms.UserForm(instance=user)
-            profile_form = forms.ProprietorProfileForm(instance=user.proprietorprofile)
+            # profile_form = forms.ProprietorProfileForm(instance=user.proprietorprofile)
             return super().get(request, user_form=user_form, profile_form=profile_form)
         # Both forms are fine. Time to save!
         user_form.save()
