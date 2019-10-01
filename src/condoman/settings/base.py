@@ -84,7 +84,7 @@ INSTALLED_APPS = (
     "profiles",
     "accounts",
     "solo",
-    "condopay",
+    "payments",
     "condofigurations",
 )
 
