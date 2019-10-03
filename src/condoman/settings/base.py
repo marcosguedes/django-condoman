@@ -81,11 +81,12 @@ INSTALLED_APPS = (
     "crispy_forms",
     "easy_thumbnails",
     "post_office",
-    "profiles",
-    "accounts",
     "solo",
-    "payments",
     "condofigurations",
+    "accounts",
+    "profiles",
+    "payments",
+    "dues",
 )
 
 MIDDLEWARE = [

@@ -16,7 +16,7 @@ class PaymentTestCase(TestCase):
             value=Decimal(20),
             billing_name="John Doe",
             billing_address_1="Avenida Infante D. Henrique, 40",
-            billing_vat=000000000,
+            billing_vat_number=000000000,
         )
         print(payment, payment.value)
         self.assertEqual(
