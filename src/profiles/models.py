@@ -66,7 +66,7 @@ class ProprietorProfile(BaseProfile):
     )
 
     def __str__(self):
-        return gettext("{}'s profile".format(self.user))
+        return "{}".format(self.user)
 
     class Meta:
         verbose_name = _("Profile")
@@ -116,6 +116,22 @@ class ProprietorProfile(BaseProfile):
 
     def billing_vat_number(self):
         return self.vat_number if self.bill_same_address else self.address.vat_number
+
+    @property
+    def condominium_fee(self):
+        try:
+            return self.apartment.condominium_fee
+        except AttributeError:
+            # No apartment configured
+            return None
+
+    @property
+    def condominium_fee_description(self):
+        try:
+            return self.apartment.condominium_fee_description
+        except AttributeError:
+            # No apartment configured
+            return None
 
 
 @python_2_unicode_compatible

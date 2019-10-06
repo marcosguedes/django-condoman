@@ -10,19 +10,6 @@ DEFAULT_COUNTRY = getattr(settings, "PROFILE_DEFAULT_COUNTRY", _("Portugal"))
 
 class CondominiumConfiguration(SingletonModel):
 
-    condominium_fee = models.DecimalField(
-        _("Condominium Fees"),
-        max_digits=9,
-        decimal_places=2,
-        default="10.0",
-        help_text=_("Value in Euros"),
-    )
-    condominium_fee_description = models.CharField(
-        _("Condominium Fee Description"),
-        default=_("Condominium Fees"),
-        help_text=_("Description for Invoices"),
-        max_length=255,
-    )
     payment_issue_day = models.PositiveSmallIntegerField(
         _("Payment Issuing Day"),
         validators=[MinValueValidator(1), MaxValueValidator(27)],
@@ -43,7 +30,7 @@ class CondominiumConfiguration(SingletonModel):
         default=5,
     )
 
-    # Building address details. Will be used for resident proprietors
+    # Building address details. Will be used as a default address for owners
     address_1 = models.CharField(
         _("Address 1"), max_length=400, default="Sample Address 1"
     )

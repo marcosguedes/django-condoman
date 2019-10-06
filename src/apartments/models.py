@@ -14,6 +14,12 @@ class Apartment(models.Model):
         default="10.0",
         help_text="Value in Euros",
     )
+    condominium_fee_description = models.CharField(
+        _("Condominium Fee Description"),
+        default=_("Condominium Fees"),
+        help_text=_("Description for Invoices"),
+        max_length=400,
+    )
     order = models.PositiveSmallIntegerField(
         _("Order"), default=0, editable=False
     )  # Fraction name should handle ordering. If not, order will

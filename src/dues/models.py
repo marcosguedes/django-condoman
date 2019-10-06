@@ -1,4 +1,5 @@
 import datetime
+import logging
 import uuid
 
 from django.db import models
@@ -9,6 +10,9 @@ from django_extensions.db.models import TimeStampedModel
 from payments import PaymentStatus
 from payments.models import Payment
 from profiles.models import ProprietorProfile
+
+
+log = logging.getLogger(__name__)
 
 
 class BaseDue(models.Model):
@@ -32,9 +36,6 @@ class BaseDue(models.Model):
         """
         Create a payment object
         """
-        from condofigurations.models import CondominiumConfiguration
-
-        config = CondominiumConfiguration.get_solo()
         payment = Payment.create_payment(
             name=proprietor.billing_name(),
             address_1=proprietor.billing_address_1(),
@@ -43,8 +44,8 @@ class BaseDue(models.Model):
             city=proprietor.billing_city(),
             country=proprietor.billing_country(),
             vat_number=proprietor.billing_vat_number(),
-            value=config.condominium_fee,
-            description=config.condominium_fee_description,
+            value=proprietor.condominium_fee,
+            description=proprietor.condominium_fee_description,
         )
         return payment
 
@@ -73,6 +74,14 @@ class BankTransferDue(TimeStampedModel, BaseDue):
 
     @classmethod
     def issue_payment(cls, proprietor):
+        if not proprietor.apartment:
+            log.warning(
+                "Owner {} doesn't have an apartment value set. Payment not issued.".format(
+                    proprietor
+                )
+            )
+            return
+
         from condofigurations.models import CondominiumConfiguration
 
         config = CondominiumConfiguration.get_solo()
