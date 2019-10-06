@@ -3,13 +3,14 @@ from __future__ import unicode_literals
 import uuid
 
 from django.conf import settings
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _, gettext
 
+from apartments.models import Apartment
 from condofigurations.models import DEFAULT_COUNTRY, CondominiumConfiguration
 
 
@@ -24,12 +25,13 @@ class BaseProfile(models.Model):
     #     "Profile picture", upload_to="profile_pics/%Y-%m-%d/", null=True, blank=True
     # )
     # bio = models.CharField("Short Bio", max_length=200, blank=True, null=True)
-    vat_number = models.IntegerField(
+    vat_number = models.CharField(
         _("VAT Number"),
         help_text=_("Please ensure this number is correct. Numbers only"),
         null=True,
         blank=False,
-        validators=[MaxValueValidator(999999999)],
+        max_length=9,
+        validators=[MinLengthValidator(9)],
     )
     notes = models.TextField(
         _("Internal Notes"),
@@ -50,8 +52,7 @@ class ProprietorProfile(BaseProfile):
     @todo: Turn Fraction and Apartment Number into a single dropdown field.
     """
 
-    fraction = models.CharField(_("Fraction"), max_length=100)
-    apartment_number = models.CharField(_("Apartment no."), max_length=100)
+    apartment = models.ForeignKey(Apartment, _("Apartment"), null=True)
     phone = models.CharField(_("Phone"), blank=True, max_length=100)
     due_exempt_until = models.DateTimeField(
         _("Exempt from dues until"),

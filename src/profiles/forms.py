@@ -32,8 +32,9 @@ class ProprietorProfileForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("fraction"),
-            Field("apartment_number"),
+            # Field("fraction"),
+            # Field("apartment_number"),
+            Field("apartment"),
             Field("vat_number"),
             Field("phone"),
             Submit("update", _("Update"), css_class="btn-success"),
@@ -41,4 +42,4 @@ class ProprietorProfileForm(forms.ModelForm):
 
     class Meta:
         model = models.ProprietorProfile
-        fields = ["fraction", "apartment_number", "vat_number", "phone"]
+        fields = ["apartment", "vat_number", "phone"]

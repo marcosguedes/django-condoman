@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     "post_office",
     "solo",
     "condofigurations",
+    "apartments",
     "accounts",
     "profiles",
     "payments",
