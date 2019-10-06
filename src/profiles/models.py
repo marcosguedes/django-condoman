@@ -75,7 +75,10 @@ class ProprietorProfile(BaseProfile):
 
     @property
     def is_exempt(self):
-        return True if self.due_exempt_until >= timezone.now() else False
+        try:
+            return True if self.due_exempt_until >= timezone.now() else False
+        except TypeError:
+            return False
 
     @cached_property
     def bill_same_address(self):
