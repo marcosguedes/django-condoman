@@ -9,3 +9,4 @@ pytz==2018.7
 django-solo
 django-cronjobs
 django-post_office
+django_extensions
