@@ -5,8 +5,8 @@ python:
 install:
   - pip3 install -r requirements.txt
   - cd ..
-  - cd condoman/src
-  - cp condoman/settings/local.sample.env condoman/settings/local.env
+  - cd src
+  - cp settings/local.sample.env condoman/settings/local.env
   - python manage.py migrate
 script:
   - python manage.py test
