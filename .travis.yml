@@ -1,12 +1,13 @@
 language: python
 python:
-  - "3.4"
+  - "3.6"
+  - "3.7"
 install:
-  - pip install -r requirements.txt
+  - pip3 install -r requirements.txt
   - cd ..
-  - django-admin.py startproject --template=./edge --extension=py,md,html,env my_proj
-  - cd my_proj/src
-  - cp my_proj/settings/local.sample.env my_proj/settings/local.env
+  - django-admin.py startproject --template=./condoman --extension=py,md,html,env test_proj
+  - cd condoman/src
+  - cp condoman/settings/local.sample.env condoman/settings/local.env
   - python manage.py migrate
 script:
-  - python manage.py test profiles
+  - python manage.py test
