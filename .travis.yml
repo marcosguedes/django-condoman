@@ -10,7 +10,7 @@ install:
   - pip3 install psycopg2 --quiet
 before_script:
   - cd src
-  - psql -c 'create database condoman;' -U postgres
+  - psql -c 'create database test_condoman;' -U postgres
   - cp condoman/settings/travis.env condoman/settings/local.env
   - python manage.py migrate
 script:
