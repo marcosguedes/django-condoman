@@ -5,5 +5,7 @@ python:
 env:
   - DJANGO=2.2.6
   - pip3 install -r requirements.txt
+before_script:
+  - cd src
 script:
   - python manage.py test
