@@ -1,11 +1,14 @@
 language: python
+sudo: required
+services: postgresql
 python:
   - "3.6"
-  - "3.7"
-install:
+env:
+  - export DJANGO_SETTINGS_MODULE=django_postgres_example.settings.travis
+install
   - pip3 install -r requirements.txt
+  - pip3 install psycopg2 --quiet
   - cd src
-  - cp condoman/settings/local.sample.env condoman/settings/local.env
   - python manage.py migrate
 script:
   - python manage.py test
