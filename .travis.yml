@@ -4,7 +4,7 @@ services: postgresql
 python:
   - "3.6"
 env:
-  - export DJANGO_SETTINGS_MODULE=django_postgres_example.settings.travis
+  - export DJANGO_SETTINGS_MODULE=condoman.settings.travis
 install
   - pip3 install -r requirements.txt
   - pip3 install psycopg2 --quiet
