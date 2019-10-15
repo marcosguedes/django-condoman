@@ -2,11 +2,8 @@ language: python
 python:
   - "3.6"
   - "3.7"
-install:
+env:
+  - DJANGO=2.2.6
   - pip3 install -r requirements.txt
-  - cd ..
-  - cd src
-  - cp settings/local.sample.env condoman/settings/local.env
-  - python manage.py migrate
 script:
   - python manage.py test
