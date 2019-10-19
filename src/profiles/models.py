@@ -3,11 +3,10 @@ from __future__ import unicode_literals
 import uuid
 
 from django.conf import settings
-from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _, gettext
 
 from apartments.models import Apartment

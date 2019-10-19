@@ -6,8 +6,6 @@ from django.test import TestCase
 from django.test.client import Client
 from django.urls import reverse
 
-from profiles.models import ProprietorProfile
-
 
 class PageOpenTestCase(TestCase):
     def test_home_page_exists(self):
@@ -24,9 +22,7 @@ class PageOpenTestCase(TestCase):
 User = get_user_model()
 
 
-class ProfileTestCase(TestCase):
-    from django.conf import settings
-
+class ProfileAccessTestCase(TestCase):
     def setUp(self):
         self.verified_user_credentials = {
             "email": "veridummy@example.com",
@@ -44,6 +40,8 @@ class ProfileTestCase(TestCase):
         self.verified_user.proprietorprofile.save()
 
     def access_profile_pages(self):
+        from profiles.models import ProprietorProfile
+
         unauthenticated_client = Client()
         unverified_client = Client()
         verified_client = Client()
