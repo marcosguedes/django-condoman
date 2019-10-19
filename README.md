@@ -2,6 +2,8 @@
 
 # condoman
 
+[![Build Status](https://travis-ci.org/marcosguedes/django-condoman.svg?branch=devel)](https://travis-ci.org/marcosguedes/django-condoman)
+
 condoman aims to be a project that eases condominium management. It's a **Work in Progress** built with [Python][0] using the [Django Web Framework][1]. Project skeleton was built using [Edge][2].
 
 ## Brief History
