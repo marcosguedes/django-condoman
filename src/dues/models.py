@@ -32,7 +32,7 @@ class BaseDue(models.Model):
         abstract = True
 
     @classmethod
-    def create_payment(cls, proprietor):
+    def issue_payment(cls, proprietor):
         """
         Create a payment object
         """
@@ -50,7 +50,7 @@ class BaseDue(models.Model):
         return payment
 
     @classmethod
-    def issue_payment(cls, proprietor):
+    def issue_due(cls, proprietor):
         raise NotImplementedError
 
 
@@ -73,19 +73,19 @@ class BankTransferDue(TimeStampedModel, BaseDue):
         ordering = ("-created",)
 
     @classmethod
-    def issue_payment(cls, proprietor):
+    def issue_due(cls, proprietor):
         if not proprietor.apartment:
             log.warning(
                 "Owner {} doesn't have an apartment value set. Payment not issued.".format(
                     proprietor
                 )
             )
-            return
+            return None
 
         from condofigurations.models import CondominiumConfiguration
 
         config = CondominiumConfiguration.get_solo()
-        payment = cls.create_payment(proprietor)
+        payment = cls.issue_payment(proprietor)
         due = cls.objects.create(
             name=proprietor.billing_name(),
             proprietor=proprietor,
@@ -108,8 +108,8 @@ class ExemptDue(TimeStampedModel, BaseDue):
         verbose_name_plural = gettext("Exempt Dues")
 
     @classmethod
-    def issue_payment(cls, proprietor):
-        payment = cls.create_payment(proprietor)
+    def issue_due(cls, proprietor):
+        payment = cls.issue_payment(proprietor)
         payment.value = 0
         payment.status = PaymentStatus.CONFIRMED
         payment.save()

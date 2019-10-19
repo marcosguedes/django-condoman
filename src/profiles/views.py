@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext_lazy as _
 from django.views import generic
-
 
 from . import forms
 from . import models
@@ -22,10 +23,27 @@ class ShowProfile(LoginRequiredMixin, generic.TemplateView):
         else:
             user = self.request.user
 
+        # A modified use of ValidateAccountMixin. We can't forbid
+        # an unverified user to access its own page
+
         if user == self.request.user:
             kwargs["editable"] = True
+
         kwargs["show_user"] = user
-        return super().get(request, *args, **kwargs)
+
+        try:
+            if request.user.proprietorprofile.is_verified:
+                return super().get(request, *args, **kwargs)
+        except models.ProprietorProfile.DoesNotExist:
+            raise PermissionDenied(
+                _("Create a profile before accessing someone else's")
+            )
+
+        if self.request.user == user:
+            return super().get(request, *args, **kwargs)
+
+        # Unverified users that aren't accessing their own page fall here
+        raise PermissionDenied(_("You're not authorized to access this page"))
 
 
 class EditProfile(LoginRequiredMixin, generic.TemplateView):
