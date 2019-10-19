@@ -109,6 +109,14 @@ class ExemptDue(TimeStampedModel, BaseDue):
 
     @classmethod
     def issue_due(cls, proprietor):
+        if not proprietor.apartment:
+            log.warning(
+                "Owner {} doesn't have an apartment value set. Payment not issued.".format(
+                    proprietor
+                )
+            )
+            return None
+
         payment = cls.issue_payment(proprietor)
         payment.value = 0
         payment.status = PaymentStatus.CONFIRMED

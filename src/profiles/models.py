@@ -47,7 +47,6 @@ class ProprietorProfile(BaseProfile):
     """
     @summary: Before a proprietor has access to their information, their email/account
               must be verified
-    @todo: Turn Fraction and Apartment Number into a single dropdown field.
     """
 
     apartment = models.ForeignKey(Apartment, _("Apartment"), null=True)
@@ -83,9 +82,16 @@ class ProprietorProfile(BaseProfile):
         except TypeError:
             return False
 
-    @cached_property
+    @property
     def bill_same_address(self):
-        return True if self.address else False
+        """
+        It's assumed the proprietor is a resident if they didn't filled
+        in an address
+        """
+        try:
+            return bool(self.address)
+        except ProprietorBillingAddress.DoesNotExist:
+            return True
 
     def billing_name(self):
         return self.address.name if not self.bill_same_address else self.user.name

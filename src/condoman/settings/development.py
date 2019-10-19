@@ -81,6 +81,7 @@ LOGGING = {
             "level": "DEBUG",
         },
         "project": {"handlers": ["proj_log_file"], "level": "DEBUG"},
+        "dues": {"handlers": ["proj_log_file", "console"], "level": "DEBUG"},
     },
 }
 
